@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+
+    <title>Contact Me</title>
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navContainer">
+        <div class="container">
+          <a class="navbar-brand" href="#">
+            <img style="width: 50px;" src="assets/img/logo/logo.png">
+            </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto ms-5 mb-2 mb-lg-0 fw-bolder">
+              <li class="nav-item me-4">
+                <a class="nav-link active text-isPrimary" aria-current="page" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="myProject.html">Add Project</a>
+              </li>
+            </ul>
+              <a class="btn border-secondary isPrimary px-4" href="contact.html">
+                Contact Me
+              </a>
+            </form>
+          </div>
+        </div>
+      </nav>
+    <!-- END NAVBAR -->
+
+    <!-- CONTACT FORM -->
+    <div class="container mt-5">
+        <h3 class="text-center fw-bolder">GET IN TOUCH</h3>
+
+        <form class="w-50 mx-auto fw-bold mt-5 formContact">
+            <div class="mb-3">
+              <label for="name" class="form-label mb-0">Name</label>
+              <input type="text" class="form-control shadow" id="name">
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label mb-0">Email</label>
+              <input type="email" class="form-control shadow" id="email">
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label mb-0">Phone Number</label>
+              <input type="number" class="form-control shadow" id="phone">
+            </div>
+            <div class="mb-3">
+                <label for="subject" class="form-label mb-0">Subject</label>
+                <select class="form-select" aria-label="Default select example">
+                    <option disabled selected value></option>
+                    <option value="Collaboration">Collaboration</option>
+                    <option value="Let's Talk">Let's Talk</option>
+                    <option value="Hiring">Hiring</option>
+                  </select>
+              </div>
+            <div class="mb-3">
+                <label for="message" class="form-label mb-0">Your Message</label>
+                <textarea class="form-control shadow" id="message" rows="5" style="resize: none;"></textarea>
+            </div>
+            <!-- <div class="mb-3">
+            <label for="formFile" class="form-label">Images</label>
+            <input class="form-control shadow" type="file" id="formFile">
+            </div> -->
+            <div class="d-flex justify-content-end mt-5">
+            <button type="submit" class="btn isPrimary fw-bold px-4 py-1 rounded-pill">submit</button>
+            </div>
+          </form>
+    </div>
+    <!-- END CONTACT FORM -->
+    
+</body>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"
+  ></script>
+</html>

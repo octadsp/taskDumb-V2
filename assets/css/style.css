@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: rgb(226, 226, 231) !important;
+}
+
+.navContainer {
+    background-color: rgb(241, 241, 241) !important;
+}
+
+.parentContainer {
+    margin: 4rem;
+}
+
+.containerCard {
+    box-shadow: rgba(0, 0, 0, 0.20) 0px 3px 6px, rgba(0, 0, 0, 0.30) 0px 5px 10px;
+}
+
+.cardProject {
+    box-shadow: rgba(0, 0, 0, 0.20) 0px 3px 6px, rgba(0, 0, 0, 0.30) 0px 5px 10px;
+}
+
+.isPrimary {
+    background-color: rgba(0, 0, 0, 0.9) !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.isPrimary:hover, .contactLink:hover {
+    background-color: orangered !important;
+}
+
+.cvLink:hover {
+    color: orangered;
+    font-weight: bold;
+}
+
+.text-isPrimary {
+    color: rgb(0, 0, 0,) !important;
+}
+
+.pAbout {
+    text-align: justify;
+    font-size: .9rem;
+}
+
+.iconImg img {
+    width: 35px;
+}
+
+.techImg img {
+    width: 23px;
+}
+
+.titleCard {
+    font-size: .8rem;
+}
+
+.pcardText {
+    font-size: .65rem;
+    margin-top: 2px;
+}
+
+.btnEdit {
+    font-size: .8rem !important;
+    background-color: rgba(0, 0, 0, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.9) !important;
+}
+
+.btnDelete {
+    font-size: .8rem !important;
+    background-color: rgba(0, 0, 0, 0.9) !important;
+    border: 1px solid rgba(0, 0, 0, 0.9) !important;
+}
+
+.btnEdit:hover {
+    background-color: rgb(62, 163, 0) !important;
+    font-weight: bold;
+}
+
+.btnDelete:hover {
+    background-color: rgb(185, 37, 8) !important;
+    font-weight: bold;
+}
+
+
+/* Add My Project */
+
