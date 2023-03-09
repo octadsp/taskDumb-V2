@@ -12,6 +12,7 @@ body {
     background-color: rgb(241, 241, 241) !important;
 }
 
+
 .parentContainer {
     margin: 4rem;
 }
@@ -86,6 +87,13 @@ body {
     font-weight: bold;
 }
 
+.techIcon img{
+    width: 30px;
+    border-radius: 7px;
+}
 
+.pDescription {
+    text-align: justify;
+}
 /* Add My Project */
 

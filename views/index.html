@@ -88,7 +88,7 @@
             </div>
 
             <!-- Right -->
-            <div class="card my-5 mx-auto" style="width: 20rem;">
+            <div class="card my-5 mx-auto shadow" style="width: 20rem;">
                 <img src="/public/img/profile1.jpg" class="card-img-top">
                 <div class="card-body text-center">
                     <h5 class="card-title fw-bold">Octavianus Dwi Sakti Pamungkas</h5>
@@ -106,174 +106,49 @@
             <h3 class="text-center m-0 fw-bolder">MY PROJECT</h3>
         </div>
 
+
         <div class="container">
             <div class="row row-cols-1 row-cols-md-3 g-4 mt-2 px-4">
+                {{range $index, $data := .Projects}}
                 <div class="col">
                     <div class="card h-100 px-2 pt-2 cardProject">
                         <img src="/public/img/project/project1.png" class="card-img-top p-2" alt="project1">
                         <div class="card-body py-0 px-2">
-                            <h3 class="card-title fw-bold m-0 titleCard">Dumbways Mobile App - 2021</h3>
-                            <p class="card-text text-muted mb-3 pcardText">durasi: 3 bulan</p>
-                            <p class="card-text fw-normal mb-1 pcardText">App that used for dumbways student, it was deployed and can downloaded on playstore. Happy download</p>
-                            <p class="card-text list-group list-group-horizontal mb-2">
-                                <a class="techImg list-group-item me-3 p-0 border border-0 fs-2" href="#">
-                                    <img src="/public/img/technology/js.png">
+                            <a href="/detailProject/{{$index}}" style="text-decoration: none; color: black;">
+
+                                <h3 class="card-title fw-bold m-0 titleCard">{{$data.Projectname}}</h3>
+                                <p class="card-text text-muted mb-3 pcardText">durasi: {{$data.Duration}}</p>
+                                <p class="card-text fw-normal mb-1 pcardText">{{$data.Description}}</p>
+                                <p class="card-text list-group list-group-horizontal mb-2">
+                                    <a class="techImg list-group-item me-3 p-0 border border-0 fs-2">
+                                        <img src="/public/img/technology/js.png">
+                                    </a>
+                                    <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
+                                        <img src="/public/img/technology/go.png">
+                                    </a>
+                                    <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
+                                        <img src="/public/img/technology/python.png">
+                                    </a>
+                                    <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
+                                        <img src="/public/img/technology/figma.png">
+                                    </a>
+
                                 </a>
-                                <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
-                                    <img src="/public/img/technology/go.png">
-                                </a>
-                                <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
-                                    <img src="/public/img/technology/python.png">
-                                </a>
-                            <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
-                                <img src="/public/img/technology/figma.png">
-                            </a>
-                            
                         </p>
                     </div>
                     <div class="d-flex flex-row gap-2 mx-2 mb-3">
                         <div class="w-50">
-                            <button class="btn btn-primary w-100 p-1 btnEdit" type="button">edit</button>
+                            <a href="/editProject/{{$index}}" class="btn btn-primary w-100 p-1 btnEdit">edit</a>
                         </div>
                         <div class="w-50">
-                            <button class="btn btn-primary w-100 p-1 btnDelete" type="button">delete</button>
+                                <a href="/deleteProject/{{$index}}" class="btn btn-primary w-100 p-1 btnDelete">delete</a>
                         </div>
                       </div>
                 </div>
             </div>
-                <div class="col">
-                    <div class="card px-2 pt-2 h-100 cardProject">
-                        <img src="/public/img/project/project2.jpg" class="card-img-top p-2" alt="project1">
-                        <div class="card-body py-0 px-2">
-                            <h3 class="card-title fw-bold m-0 titleCard">Dumbways Mobile App - 2021</h3>
-                            <p class="card-text text-muted mb-3 pcardText">durasi: 3 bulan</p>
-                            <p class="card-text fw-normal mb-1 pcardText">App that used for dumbways student, it was deployed and can downloaded on playstore. Happy download</p>
-                            <p class="card-text list-group list-group-horizontal mb-2">
-                                <a class="techImg list-group-item me-3 p-0 border border-0 fs-2" href="#">
-                                    <img src="/public/img/technology/js.png">
-                                </a>
-                                <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
-                                    <img src="/public/img/technology/go.png">
-                                </a>
-                                <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
-                                    <img src="/public/img/technology/python.png">
-                                </a>
-                            <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
-                                <img src="/public/img/technology/figma.png">
-                            </a>
-                            
-                        </p>
-                    </div>
-                    <div class="d-flex flex-row gap-2 mx-2 mb-3">
-                        <div class="w-50">
-                            <button class="btn btn-primary w-100 p-1 btnEdit" type="button">edit</button>
-                        </div>
-                        <div class="w-50">
-                            <button class="btn btn-primary w-100 p-1 btnDelete" type="button">delete</button>
-                        </div>
-                      </div>
-                </div>
-            </div>
-                <div class="col">
-                    <div class="card h-100 px-2 pt-2 cardProject">
-                        <img src="/public/img/project/project3.jpg" class="card-img-top p-2" alt="project1">
-                        <div class="card-body py-0 px-2">
-                            <h3 class="card-title fw-bold m-0 titleCard">Dumbways Mobile App - 2021</h3>
-                            <p class="card-text text-muted mb-3 pcardText">durasi: 3 bulan</p>
-                            <p class="card-text fw-normal mb-1 pcardText">App that used for dumbways student, it was deployed and can downloaded on playstore. Happy download</p>
-                            <p class="card-text list-group list-group-horizontal mb-2">
-                                <a class="techImg list-group-item me-3 p-0 border border-0 fs-2" href="#">
-                                    <img src="/public/img/technology/js.png">
-                                </a>
-                                <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
-                                    <img src="/public/img/technology/go.png">
-                                </a>
-                                <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
-                                    <img src="/public/img/technology/python.png">
-                                </a>
-                            <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
-                                <img src="/public/img/technology/figma.png">
-                            </a>
-                            
-                        </p>
-                    </div>
-                    <div class="d-flex flex-row gap-2 mx-2 mb-3">
-                        <div class="w-50">
-                            <button class="btn btn-primary w-100 p-1 btnEdit" type="button">edit</button>
-                        </div>
-                        <div class="w-50">
-                            <button class="btn btn-primary w-100 p-1 btnDelete" type="button">delete</button>
-                        </div>
-                      </div>
-                </div>
-            </div>
-                <div class="col">
-                    <div class="card h-100 px-2 pt-2 cardProject">
-                        <img src="/public/img/project/project4.png" class="card-img-top p-2" alt="project1">
-                        <div class="card-body py-0 px-2">
-                            <h3 class="card-title fw-bold m-0 titleCard">Dumbways Mobile App - 2021</h3>
-                            <p class="card-text text-muted mb-3 pcardText">durasi: 3 bulan</p>
-                            <p class="card-text fw-normal mb-1 pcardText">App that used for dumbways student, it was deployed and can downloaded on playstore. Happy download</p>
-                            <p class="card-text list-group list-group-horizontal mb-2">
-                                <a class="techImg list-group-item me-3 p-0 border border-0 fs-2" href="#">
-                                    <img src="/public/img/technology/js.png">
-                                </a>
-                                <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
-                                    <img src="/public/img/technology/go.png">
-                                </a>
-                                <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
-                                    <img src="/public/img/technology/python.png">
-                                </a>
-                            <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
-                                <img src="/public/img/technology/figma.png">
-                            </a>
-                            
-                        </p>
-                    </div>
-                    <div class="d-flex flex-row gap-2 mx-2 mb-3">
-                        <div class="w-50">
-                            <button class="btn btn-primary w-100 p-1 btnEdit" type="button">edit</button>
-                        </div>
-                        <div class="w-50">
-                            <button class="btn btn-primary w-100 p-1 btnDelete" type="button">delete</button>
-                        </div>
-                      </div>
-                </div>
-            </div>
-                <div class="col">
-                    <div class="card h-100 px-2 pt-2 cardProject">
-                        <img src="/public/img/project/project5.jpg" class="card-img-top p-2" alt="project1">
-                        <div class="card-body py-0 px-2">
-                            <h3 class="card-title fw-bold m-0 titleCard">Dumbways Mobile App - 2021</h3>
-                            <p class="card-text text-muted mb-3 pcardText">durasi: 3 bulan</p>
-                            <p class="card-text fw-normal mb-1 pcardText">App that used for dumbways student, it was deployed and can downloaded on playstore. Happy download</p>
-                            <p class="card-text list-group list-group-horizontal mb-2">
-                                <a class="techImg list-group-item me-3 p-0 border border-0 fs-2" href="#">
-                                    <img src="/public/img/technology/js.png">
-                                </a>
-                                <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
-                                    <img src="/public/img/technology/go.png">
-                                </a>
-                                <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
-                                    <img src="/public/img/technology/python.png">
-                                </a>
-                            <a class="techImg list-group-item me-3 p-0 border border-0 rounded-circle fs-2" href="#">
-                                <img src="/public/img/technology/figma.png">
-                            </a>
-                            
-                        </p>
-                    </div>
-                    <div class="d-flex flex-row gap-2 mx-2 mb-3">
-                        <div class="w-50">
-                            <button class="btn btn-primary w-100 p-1 btnEdit" type="button">edit</button>
-                        </div>
-                        <div class="w-50">
-                            <button class="btn btn-primary w-100 p-1 btnDelete" type="button">delete</button>
-                        </div>
-                      </div>
-                </div>
-            </div>
-                
+            {{end}}
+
+            
         </div>
     </div>
     <!-- END MY PROJECT -->

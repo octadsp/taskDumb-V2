@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/public/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+
+    <title>Detail Project</title>
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navContainer">
+        <div class="container">
+          <a class="navbar-brand" href="#">
+            <img style="width: 50px;" src="/public/img/logo/logo.png">
+            </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto ms-5 mb-2 mb-lg-0 fw-bolder">
+              <li class="nav-item me-4">
+                <a class="nav-link active text-isPrimary" aria-current="page" href="/">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/myProject">Add Project</a>
+              </li>
+            </ul>
+              <a class="btn border-secondary isPrimary px-4" href="/contact">
+                Contact Me
+              </a>
+            </form>
+          </div>
+        </div>
+      </nav>
+    <!-- END NAVBAR -->
+
+    <!-- DETAIL PROJECT-->
+    <div class="container">
+        <h1 class="fw-bolder text-center my-5">{{.Project.Projectname}}</h1>
+
+        <div class="container p-0">
+            <div class="row g-0 d-flex justify-content-between">
+              <div class="col-md-7">
+                <img src="/public/img/project/project1.png" class="img-fluid" alt="...">
+              </div>
+              <div class="col-md-4">
+                <div class="card-body">
+                  <h5 class="card-title fw-bold fs-3 my-3">Duration</h5>
+                  <p class="card-text fw-light fs-5"><i class="fa-solid fa-calendar-days fs-4 me-3"></i>12 Jan 2021 - 11 Feb 2021</p>
+                  <p class="card-text fw-light fs-5"><i class="fa-regular fa-clock me-3 fs-4"></i>1 month</p>
+                </div>
+                <div class="card-body mt-5">
+                    <h5 class="card-title fw-bold fs-3 my-3">Technology</h5>
+                    <div class="row g-0">
+                        <div class="col-md-6 techIcon">
+                            <p class="card-text fw-light fs-5 d-flex"><img src="/public/img/technology/js.png" class="me-3 fs-3" style="width: 30px;"></img></i>JavaScript</p>
+                            <p class="card-text fw-light fs-5 d-flex"><img src="/public/img/technology/go.png" class="me-3 fs-3" style="width: 30px;"></img></i>GoLang</p>
+                        </div>
+                        <div class="col-md-6 techIcon">
+                            <p class="card-text fw-light fs-5 d-flex"><img src="/public/img/technology/python.png" class="me-3 fs-3" style="width: 30px;"></img></i>Python</p>
+                            <p class="card-text fw-light fs-5 d-flex"><img src="/public/img/technology/figma.png" class="me-3 fs-3" style="width: 30px;"></img></i>Figma</p>
+                        </div>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+        
+        <div class="container p-0 my-5 fs-5 d-flex pDescription">
+            <p>{{.Project.Description}}</p>
+        </div>
+    </div>
+    <!-- END DETAIL PROJECT -->
+
+    
+</body>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+    crossorigin="anonymous"
+  ></script>
+</html>
