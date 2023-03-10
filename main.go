@@ -1,11 +1,14 @@
 package main
 
 import (
+	"chapter2/connection"
+	"context"
 	"fmt"
 	"html/template"
 	"io"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/labstack/echo/v4"
 )
@@ -15,9 +18,12 @@ type Template struct {
 }
 
 type Project struct {
+	ID          int
 	Projectname string
 	Duration    string
 	Description string
+	PostDate    time.Time
+	Image       string
 }
 
 var dataProject = []Project{
@@ -36,6 +42,7 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 }
 
 func main() {
+	connection.DatabaseConnect()
 	e := echo.New()
 
 	e.Static("/public", "public")
@@ -67,8 +74,23 @@ func helloWorld(c echo.Context) error {
 
 // Function Home
 func home(c echo.Context) error {
+	data, _ := connection.Conn.Query(context.Background(), "SELECT id, project_name, description, image, post_date FROM tb_project")
+
+	var result []Project
+	for data.Next() {
+		var each = Project{}
+
+		err := data.Scan(&each.ID, &each.Projectname, &each.Description, &each.Image, &each.PostDate)
+		if err != nil {
+			fmt.Println(err.Error())
+			return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
+		}
+
+		result = append(result, each)
+	}
+
 	projects := map[string]interface{}{
-		"Projects": dataProject,
+		"Projects": result,
 	}
 
 	return c.Render(http.StatusOK, "index.html", projects)
@@ -156,17 +178,13 @@ func editproject(c echo.Context) error {
 
 // func postEditProject(c echo.Context) error {
 // 	id, _ := strconv.Atoi(c.Param("id"))
-
 // 	projectNameEdit := c.FormValue("projectNameEdit")
 // 	descriptionEdit := c.FormValue("descriptionEdit")
-
 // 	newEditedProject := Project{
 // 		Projectname: projectNameEdit,
 // 		Duration:    "9 Bulan Ges",
 // 		Description: descriptionEdit,
 // 	}
-
 // 	dataProject[id] = append(dataProject, newEditedProject )
-
 // 	return c.Redirect(http.StatusMovedPermanently, "/")
 // }
