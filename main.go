@@ -8,7 +8,6 @@ import (
 	"io"
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/labstack/echo/v4"
 )
@@ -20,17 +19,31 @@ type Template struct {
 type Project struct {
 	ID          int
 	Projectname string
-	Duration    string
+	// StartDate   string
+	// EndDate     string
 	Description string
-	PostDate    time.Time
-	Image       string
+	// Technology  map[string]string
+	// Image       string
 }
 
 var dataProject = []Project{
 	{
+		ID:          0,
 		Projectname: "Ini Project TESTING",
-		Duration:    "5 Bulan",
+		// StartDate:   "2023-03-01",
+		// EndDate:     "2023-03-10",
 		Description: "Ini Project TESTING",
+		// Technology:  map[string]string{"js": "/public/img/technology/js.png", "go": "/public/img/technology/go.png", "python": "/public/img/technology/python.png", "figma": "/public/img/technology/figma.png"},
+		// Image:       "project1.png",
+	},
+	{
+		ID:          1,
+		Projectname: "Ini Project TESTING 2",
+		// StartDate:   "2023-03-01",
+		// EndDate:     "2023-03-10",
+		Description: "Ini Project TESTING 2",
+		// Technology:  map[string]string{"js": "/public/img/technology/js.png", "go": "/public/img/technology/go.png", "python": "/public/img/technology/python.png", "figma": "/public/img/technology/figma.png"},
+		// Image:       "project1.png",
 	},
 }
 
@@ -74,13 +87,13 @@ func helloWorld(c echo.Context) error {
 
 // Function Home
 func home(c echo.Context) error {
-	data, _ := connection.Conn.Query(context.Background(), "SELECT id, project_name, description, image, post_date FROM tb_project")
+	data, _ := connection.Conn.Query(context.Background(), "SELECT id, project_name, description FROM tb_project")
 
 	var result []Project
 	for data.Next() {
 		var each = Project{}
 
-		err := data.Scan(&each.ID, &each.Projectname, &each.Description, &each.Image, &each.PostDate)
+		err := data.Scan(&each.ID, &each.Projectname, &each.Description)
 		if err != nil {
 			fmt.Println(err.Error())
 			return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
@@ -111,11 +124,16 @@ func postproject(c echo.Context) error {
 	// startDate := c.FormValue("startDate")
 	// endDate := c.FormValue("endDate")
 	description := c.FormValue("description")
+	// technology := c.
 
 	var newProject = Project{
+		ID:          0,
 		Projectname: projectName,
-		Duration:    "9 Bulan Ges",
+		// StartDate:   startDate,
+		// EndDate:     endDate,
 		Description: description,
+		// Technology:  technology,
+		// Image:       "",
 	}
 
 	dataProject = append(dataProject, newProject)
@@ -132,7 +150,6 @@ func detailproject(c echo.Context) error {
 		if id == i {
 			ProjectDetail = Project{
 				Projectname: data.Projectname,
-				Duration:    data.Duration,
 				Description: data.Description,
 			}
 		}
@@ -163,7 +180,6 @@ func editproject(c echo.Context) error {
 		if id == i {
 			ProjectEdit = Project{
 				Projectname: data.Projectname,
-				Duration:    data.Duration,
 				Description: data.Description,
 			}
 		}
