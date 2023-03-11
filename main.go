@@ -127,11 +127,6 @@ func home(c echo.Context) error {
 		months := int(diff.Hours() / 24 / 30)
 		years := int(diff.Hours() / 24 / 365)
 
-		fmt.Println(days)
-		fmt.Println(weeks)
-		fmt.Println(months)
-		fmt.Println(years)
-
 		var Duration string
 		if years >= 1 {
 
