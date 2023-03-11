@@ -19,11 +19,12 @@ type Template struct {
 type Project struct {
 	ID          int
 	Projectname string
-	// StartDate   string
+	// StartDate   time.Time
 	// EndDate     string
 	Description string
-	// Technology  map[string]string
+	Technology  []string
 	// Image       string
+	Selisih string
 }
 
 var dataProject = []Project{
@@ -87,19 +88,37 @@ func helloWorld(c echo.Context) error {
 
 // Function Home
 func home(c echo.Context) error {
-	data, _ := connection.Conn.Query(context.Background(), "SELECT id, project_name, description FROM tb_project")
+	data, _ := connection.Conn.Query(context.Background(), "SELECT id, project_name, description, technology FROM tb_project")
 
 	var result []Project
+
 	for data.Next() {
 		var each = Project{}
 
-		err := data.Scan(&each.ID, &each.Projectname, &each.Description)
+		err := data.Scan(&each.ID, &each.Projectname, &each.Description, &each.Technology)
 		if err != nil {
 			fmt.Println(err.Error())
 			return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
 		}
 
-		result = append(result, each)
+		// result = append(result, each)
+
+		var contohSelisih = ""
+		// Logic ngitung seisih
+		// >= 1 tahun = "x years"
+		// < 1 tahun = "x months"
+		// < 1 bulan = "x weeks"
+
+		contohSelisih = "bukanasd"
+
+		var newEach = Project{
+			ID:          each.ID,
+			Projectname: each.Projectname,
+			Description: each.Description,
+			Technology:  each.Technology,
+			Selisih:     contohSelisih,
+		}
+		result = append(result, newEach)
 	}
 
 	projects := map[string]interface{}{
