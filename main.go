@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/labstack/echo/v4"
 )
@@ -19,12 +20,12 @@ type Template struct {
 type Project struct {
 	ID          int
 	Projectname string
-	// StartDate   time.Time
-	// EndDate     string
+	StartDate   time.Time
+	EndDate     time.Time
 	Description string
 	Technology  []string
+	Duration    string
 	// Image       string
-	Selisih string
 }
 
 var dataProject = []Project{
@@ -88,14 +89,14 @@ func helloWorld(c echo.Context) error {
 
 // Function Home
 func home(c echo.Context) error {
-	data, _ := connection.Conn.Query(context.Background(), "SELECT id, project_name, description, technology FROM tb_project")
+	data, _ := connection.Conn.Query(context.Background(), "SELECT id, project_name, start_date, end_date, description, technology FROM tb_project")
 
 	var result []Project
 
 	for data.Next() {
 		var each = Project{}
 
-		err := data.Scan(&each.ID, &each.Projectname, &each.Description, &each.Technology)
+		err := data.Scan(&each.ID, &each.Projectname, &each.StartDate, &each.EndDate, &each.Description, &each.Technology)
 		if err != nil {
 			fmt.Println(err.Error())
 			return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
@@ -103,20 +104,82 @@ func home(c echo.Context) error {
 
 		// result = append(result, each)
 
-		var contohSelisih = ""
+		// var contohSelisih = ""
 		// Logic ngitung seisih
 		// >= 1 tahun = "x years"
 		// < 1 tahun = "x months"
 		// < 1 bulan = "x weeks"
 
-		contohSelisih = "bukanasd"
+		// contohSelisih = "bukanasd"
+
+		layout := "2006-01-02"
+
+		startDate := each.StartDate.Format(layout)
+		endDate := each.EndDate.Format(layout)
+
+		t1, _ := time.Parse(layout, endDate)
+		t2, _ := time.Parse(layout, startDate)
+
+		diff := t1.Sub(t2)
+
+		days := int(diff.Hours() / 24)
+		weeks := int(diff.Hours() / 24 / 7)
+		months := int(diff.Hours() / 24 / 30)
+		years := int(diff.Hours() / 24 / 365)
+
+		fmt.Println(days)
+		fmt.Println(weeks)
+		fmt.Println(months)
+		fmt.Println(years)
+
+		var Duration string
+		if years >= 1 {
+
+			//Fungsi buat tahun lebih dari 1
+			if years > 1 {
+				Duration = strconv.Itoa(years) + " years"
+			} else {
+				//Fungsi buat tahun == 1
+				Duration = strconv.Itoa(years) + " year"
+			}
+		} else if months < 12 && months > 0 {
+
+			//Fungsi buat handling lebih dari 1 bulan
+			if months > 1 {
+				Duration = strconv.Itoa(months) + " months"
+			} else {
+				// Fungsi buat handling 1 bulan doang
+				Duration = strconv.Itoa(months) + " month"
+			}
+		} else if weeks > 0 && weeks <= 4 {
+			//Fungsi buat handling kurang dari 1 bulan
+			if weeks > 1 {
+				Duration = strconv.Itoa(weeks) + " weeks"
+			} else {
+				// Fungsi buat handling 1 week doang
+				Duration = strconv.Itoa(weeks) + " week"
+			}
+		} else {
+			//Fungsi buat handling kurang dari 7 hari
+			if days > 1 && days < 7 {
+				Duration = strconv.Itoa(days) + " days"
+
+				//Fungsi buat handling 1 hari
+			} else if days == 1 {
+				Duration = strconv.Itoa(days) + " day"
+
+				//Fungsi buat handling < 1 hari
+			} else {
+				Duration = "less than a day"
+			}
+		}
 
 		var newEach = Project{
 			ID:          each.ID,
 			Projectname: each.Projectname,
 			Description: each.Description,
 			Technology:  each.Technology,
-			Selisih:     contohSelisih,
+			Duration:    Duration,
 		}
 		result = append(result, newEach)
 	}
