@@ -102,9 +102,6 @@ func home(c echo.Context) error {
 			return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
 		}
 
-		// result = append(result, each)
-
-		// var contohSelisih = ""
 		// Logic ngitung seisih
 		// >= 1 tahun = "x years"
 		// < 1 tahun = "x months"
