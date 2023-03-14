@@ -8,7 +8,7 @@ import (
 	"github.com/jackc/pgx/v4"
 )
 
-var Conn *pgx.Conn
+var Conn *pgx.Conn //pointing
 
 func DatabaseConnect() {
 	databaseUrl := "postgres://postgres:admin@localhost:5432/project-web"

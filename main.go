@@ -18,35 +18,16 @@ type Template struct {
 }
 
 type Project struct {
-	ID          int
-	Projectname string
-	StartDate   time.Time
-	EndDate     time.Time
-	Description string
-	Technology  []string
-	Duration    string
-	// Image       string
-}
-
-var dataProject = []Project{
-	{
-		ID:          0,
-		Projectname: "Ini Project TESTING",
-		// StartDate:   "2023-03-01",
-		// EndDate:     "2023-03-10",
-		Description: "Ini Project TESTING",
-		// Technology:  map[string]string{"js": "/public/img/technology/js.png", "go": "/public/img/technology/go.png", "python": "/public/img/technology/python.png", "figma": "/public/img/technology/figma.png"},
-		// Image:       "project1.png",
-	},
-	{
-		ID:          1,
-		Projectname: "Ini Project TESTING 2",
-		// StartDate:   "2023-03-01",
-		// EndDate:     "2023-03-10",
-		Description: "Ini Project TESTING 2",
-		// Technology:  map[string]string{"js": "/public/img/technology/js.png", "go": "/public/img/technology/go.png", "python": "/public/img/technology/python.png", "figma": "/public/img/technology/figma.png"},
-		// Image:       "project1.png",
-	},
+	ID              int
+	Projectname     string
+	StartDate       time.Time
+	EndDate         time.Time
+	Description     string
+	Technology      []string
+	Duration        string
+	Image           string
+	FormatStartDate string
+	FormatEndDate   string
 }
 
 // Function Render = pada function ini mendeklarasikan alias t dengan template(dari package Template echo)
@@ -68,23 +49,18 @@ func main() {
 
 	e.Renderer = t
 
-	// Routing
-	e.GET("/hello", helloWorld)                //to execute //localhost:5000/hello
+	// Routing              //to execute //localhost:5000/hello
 	e.GET("/", home)                           //localhost:5000
 	e.GET("/contact", contact)                 //localhost:5000/contact
 	e.GET("/myProject", myproject)             //localhost:5000/myProject
 	e.GET("/detailProject/:id", detailproject) //localhost:5000/detailProject/:id
 	e.POST("/myProject", postproject)          //localhost:5000/myProject
 	e.GET("/deleteProject/:id", deleteproject)
-	e.GET("/editProject/:id", editproject) //localhost:5000/deleteProject
+	// e.GET("/editProject/:id", editproject) //localhost:5000/deleteProject
 	// e.POST("/editProject/:id", postEditProject) //localhost:5000/deleteProject
 
 	fmt.Println("Server Berjalan di port 5000")
 	e.Logger.Fatal(e.Start("localhost:5000"))
-}
-
-func helloWorld(c echo.Context) error {
-	return c.String(http.StatusOK, "Hello World!") //http merupakan package dari golang yg akan mengirimkan StatusOK = 200
 }
 
 // Function Home
@@ -195,22 +171,24 @@ func myproject(c echo.Context) error {
 
 func postproject(c echo.Context) error {
 	projectName := c.FormValue("projectName")
-	// startDate := c.FormValue("startDate")
-	// endDate := c.FormValue("endDate")
+	startDate := c.FormValue("startDate")
+	endDate := c.FormValue("endDate")
 	description := c.FormValue("description")
-	// technology := c.
+	techValues := c.Request().Form["techIcon"]
+	image := "project.png"
 
-	var newProject = Project{
-		ID:          0,
-		Projectname: projectName,
-		// StartDate:   startDate,
-		// EndDate:     endDate,
-		Description: description,
-		// Technology:  technology,
-		// Image:       "",
+	technology := []string{}
+	for _, val := range techValues {
+		technology = append(technology, val)
 	}
 
-	dataProject = append(dataProject, newProject)
+	fmt.Println(technology)
+
+	_, err := connection.Conn.Exec(context.Background(), "INSERT INTO tb_project (project_name, description, image, start_date, end_date, technology) VALUES ($1, $2, $3, $4, $5, $6)", projectName, description, image, startDate, endDate, technology)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
+	}
 
 	return c.Redirect(http.StatusMovedPermanently, "/")
 }
@@ -220,51 +198,119 @@ func detailproject(c echo.Context) error {
 
 	var ProjectDetail = Project{}
 
-	for i, data := range dataProject {
-		if id == i {
-			ProjectDetail = Project{
-				Projectname: data.Projectname,
-				Description: data.Description,
-			}
+	err := connection.Conn.QueryRow(context.Background(), "SELECT id, project_name, description, image, technology, start_date, end_date FROM tb_project WHERE id=$1", id).Scan(&ProjectDetail.ID, &ProjectDetail.Projectname, &ProjectDetail.Description, &ProjectDetail.Image, &ProjectDetail.Technology, &ProjectDetail.StartDate, &ProjectDetail.EndDate)
+
+	ProjectDetail.FormatStartDate = ProjectDetail.StartDate.Format("02 Jan 2006")
+	ProjectDetail.FormatEndDate = ProjectDetail.EndDate.Format("02 Jan 2006")
+
+	layout := "2006-01-02"
+
+	startDate := ProjectDetail.StartDate.Format(layout)
+	endDate := ProjectDetail.EndDate.Format(layout)
+
+	t1, _ := time.Parse(layout, endDate)
+	t2, _ := time.Parse(layout, startDate)
+
+	diff := t1.Sub(t2)
+
+	days := int(diff.Hours() / 24)
+	weeks := int(diff.Hours() / 24 / 7)
+	months := int(diff.Hours() / 24 / 30)
+	years := int(diff.Hours() / 24 / 365)
+
+	var Duration string
+	if years >= 1 {
+
+		//Fungsi buat tahun lebih dari 1
+		if years > 1 {
+			Duration = strconv.Itoa(years) + " years"
+		} else {
+			//Fungsi buat tahun == 1
+			Duration = strconv.Itoa(years) + " year"
+		}
+	} else if months < 12 && months > 0 {
+
+		//Fungsi buat handling lebih dari 1 bulan
+		if months > 1 {
+			Duration = strconv.Itoa(months) + " months"
+		} else {
+			// Fungsi buat handling 1 bulan doang
+			Duration = strconv.Itoa(months) + " month"
+		}
+	} else if weeks > 0 && weeks <= 4 {
+		//Fungsi buat handling kurang dari 1 bulan
+		if weeks > 1 {
+			Duration = strconv.Itoa(weeks) + " weeks"
+		} else {
+			// Fungsi buat handling 1 week doang
+			Duration = strconv.Itoa(weeks) + " week"
+		}
+	} else {
+		//Fungsi buat handling kurang dari 7 hari
+		if days > 1 && days < 7 {
+			Duration = strconv.Itoa(days) + " days"
+
+			//Fungsi buat handling 1 hari
+		} else if days == 1 {
+			Duration = strconv.Itoa(days) + " day"
+
+			//Fungsi buat handling < 1 hari
+		} else {
+			Duration = "less than a day"
 		}
 	}
 
-	//data yang akan dikirimkan ke html menggunakan map interface
-	detailProject := map[string]interface{}{
+	// technology := []string{}
+	// for _, val := range ProjectDetail.Technology {
+	// 	technology = append(technology, val)
+	// }
+
+	// ProjectDetail.Technology = technology
+	ProjectDetail.Duration = Duration
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
+	}
+
+	data := map[string]interface{}{
 		"Project": ProjectDetail,
 	}
 
-	return c.Render(http.StatusOK, "detailProject.html", detailProject)
+	return c.Render(http.StatusOK, "detailProject.html", data)
 }
 
 func deleteproject(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 
-	dataProject = append(dataProject[:id], dataProject[id+1:]...)
+	_, err := connection.Conn.Exec(context.Background(), "DELETE FROM tb_project WHERE id=$1", id)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
+	}
 
 	return c.Redirect(http.StatusMovedPermanently, "/")
 }
 
-func editproject(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
+// func editproject(c echo.Context) error {
+// 	id, _ := strconv.Atoi(c.Param("id"))
 
-	var ProjectEdit = Project{}
+// 	var ProjectEdit = Project{}
 
-	for i, data := range dataProject {
-		if id == i {
-			ProjectEdit = Project{
-				Projectname: data.Projectname,
-				Description: data.Description,
-			}
-		}
-	}
+// 	for i, data := range dataProject {
+// 		if id == i {
+// 			ProjectEdit = Project{
+// 				Projectname: data.Projectname,
+// 				Description: data.Description,
+// 			}
+// 		}
+// 	}
 
-	editProject := map[string]interface{}{
-		"Project": ProjectEdit,
-	}
+// 	editProject := map[string]interface{}{
+// 		"Project": ProjectEdit,
+// 	}
 
-	return c.Render(http.StatusOK, "editProject.html", editProject)
-}
+// 	return c.Render(http.StatusOK, "editProject.html", editProject)
+// }
 
 // func postEditProject(c echo.Context) error {
 // 	id, _ := strconv.Atoi(c.Param("id"))

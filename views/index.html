@@ -114,7 +114,7 @@
                     <div class="card h-100 px-2 pt-2 cardProject">
                         <img src="/public/img/project/project1.png" class="card-img-top p-2" alt="project1">
                         <div class="card-body py-0 px-2">
-                            <a href="/detailProject/{{$index}}" style="text-decoration: none; color: black;">
+                            <a href="/detailProject/{{$data.ID}}" style="text-decoration: none; color: black;">
 
                                 <h3 class="card-title fw-bold m-0 titleCard">{{$data.Projectname}}</h3>
                                 <p class="card-text text-muted mb-3 pcardText">durasi: {{$data.Duration}}</p>
@@ -156,10 +156,10 @@
                               </div>
                     <div class="d-flex flex-row gap-2 mx-2 mb-3">
                         <div class="w-50">
-                            <a href="/editProject/{{$index}}" class="btn btn-primary w-100 p-1 btnEdit">edit</a>
+                            <a href="/editProject/{{$data.ID}}" class="btn btn-primary w-100 p-1 btnEdit">edit</a>
                         </div>
                         <div class="w-50">
-                                <a href="/deleteProject/{{$index}}" class="btn btn-primary w-100 p-1 btnDelete">delete</a>
+                                <a href="/deleteProject/{{$data.ID}}" class="btn btn-primary w-100 p-1 btnDelete">delete</a>
                         </div>
                       </div>
                 </div>

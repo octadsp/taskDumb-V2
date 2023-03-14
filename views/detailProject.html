@@ -64,21 +64,40 @@
               <div class="col-md-4">
                 <div class="card-body">
                   <h5 class="card-title fw-bold fs-3 my-3">Duration</h5>
-                  <p class="card-text fw-light fs-5"><i class="fa-solid fa-calendar-days fs-4 me-3"></i>12 Jan 2021 - 11 Feb 2021</p>
-                  <p class="card-text fw-light fs-5"><i class="fa-regular fa-clock me-3 fs-4"></i>1 month</p>
+                  <p class="card-text fw-light fs-5"><i class="fa-solid fa-calendar-days fs-4 me-3"></i>{{.Project.FormatStartDate}} - {{.Project.FormatEndDate}}</p>
+                  <p class="card-text fw-light fs-5"><i class="fa-regular fa-clock me-3 fs-4"></i>{{.Project.Duration}}</p>
                 </div>
+
                 <div class="card-body mt-5">
-                    <h5 class="card-title fw-bold fs-3 my-3">Technology</h5>
-                    <div class="row g-0">
-                        <div class="col-md-6 techIcon">
-                            <p class="card-text fw-light fs-5 d-flex"><img src="/public/img/technology/js.png" class="me-3 fs-3" style="width: 30px;"></img></i>JavaScript</p>
-                            <p class="card-text fw-light fs-5 d-flex"><img src="/public/img/technology/go.png" class="me-3 fs-3" style="width: 30px;"></img></i>GoLang</p>
-                        </div>
-                        <div class="col-md-6 techIcon">
-                            <p class="card-text fw-light fs-5 d-flex"><img src="/public/img/technology/python.png" class="me-3 fs-3" style="width: 30px;"></img></i>Python</p>
-                            <p class="card-text fw-light fs-5 d-flex"><img src="/public/img/technology/figma.png" class="me-3 fs-3" style="width: 30px;"></img></i>Figma</p>
-                        </div>
+                  <h5 class="card-title fw-bold fs-3 my-3">Technology</h5>
+
+                  <div class="container text-start px-0">
+                    <div class="row row-cols-2">
+                      {{range $dataTechDetail := .Project.Technology}}
+                      {{if eq $dataTechDetail "js"}}
+                      <div class="col mb-4">
+                        <img src="/public/img/technology/js.png" class="me-3 fs-3" style="width: 35px;">JavaScript</img>
+                      </div>
+                      {{end}}
+                      {{if eq $dataTechDetail "go"}}
+                      <div class="col mb-4">
+                        <img src="/public/img/technology/go.png" class="me-3 fs-3" style="width: 35px;">GoLang</img>
+                      </div>
+                      {{end}}
+                      {{if eq $dataTechDetail "pyt"}}
+                      <div class="col mb-4">
+                        <img src="/public/img/technology/python.png" class="me-3 fs-3" style="width: 35px;">Python</img>
+                      </div>
+                      {{end}}
+                      {{if eq $dataTechDetail "fig"}}
+                      <div class="col mb-4">
+                        <img src="/public/img/technology/figma.png" class="me-3 fs-3" style="width: 35px;">Figma</img>
+                      </div>
+                      {{end}}
+                      {{end}}
                     </div>
+                  </div>
+
                   </div>
               </div>
             </div>
@@ -88,6 +107,8 @@
             <p>{{.Project.Description}}</p>
         </div>
     </div>
+
+
     <!-- END DETAIL PROJECT -->
 
     
