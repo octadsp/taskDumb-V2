@@ -182,8 +182,6 @@ func postproject(c echo.Context) error {
 		technology = append(technology, val)
 	}
 
-	fmt.Println(technology)
-
 	_, err := connection.Conn.Exec(context.Background(), "INSERT INTO tb_project (project_name, description, image, start_date, end_date, technology) VALUES ($1, $2, $3, $4, $5, $6)", projectName, description, image, startDate, endDate, technology)
 
 	if err != nil {
@@ -260,12 +258,6 @@ func detailproject(c echo.Context) error {
 		}
 	}
 
-	// technology := []string{}
-	// for _, val := range ProjectDetail.Technology {
-	// 	technology = append(technology, val)
-	// }
-
-	// ProjectDetail.Technology = technology
 	ProjectDetail.Duration = Duration
 
 	if err != nil {
