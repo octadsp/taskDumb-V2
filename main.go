@@ -56,8 +56,8 @@ func main() {
 	e.GET("/detailProject/:id", detailproject) //localhost:5000/detailProject/:id
 	e.POST("/myProject", postproject)          //localhost:5000/myProject
 	e.GET("/deleteProject/:id", deleteproject)
-	// e.GET("/editProject/:id", editproject) //localhost:5000/deleteProject
-	// e.POST("/editProject/:id", postEditProject) //localhost:5000/deleteProject
+	e.GET("/editProject/:id", editproject)    //localhost:5000/deleteProject
+	e.POST("/editProject/:id", updateproject) //localhost:5000/deleteProject
 
 	fmt.Println("Server Berjalan di port 5000")
 	e.Logger.Fatal(e.Start("localhost:5000"))
@@ -169,6 +169,7 @@ func myproject(c echo.Context) error {
 	return c.Render(http.StatusOK, "myProject.html", nil)
 }
 
+// Function POST Project
 func postproject(c echo.Context) error {
 	projectName := c.FormValue("projectName")
 	startDate := c.FormValue("startDate")
@@ -177,12 +178,7 @@ func postproject(c echo.Context) error {
 	techValues := c.Request().Form["techIcon"]
 	image := "project.png"
 
-	technology := []string{}
-	for _, val := range techValues {
-		technology = append(technology, val)
-	}
-
-	_, err := connection.Conn.Exec(context.Background(), "INSERT INTO tb_project (project_name, description, image, start_date, end_date, technology) VALUES ($1, $2, $3, $4, $5, $6)", projectName, description, image, startDate, endDate, technology)
+	_, err := connection.Conn.Exec(context.Background(), "INSERT INTO tb_project (project_name, description, image, start_date, end_date, technology) VALUES ($1, $2, $3, $4, $5, $6)", projectName, description, image, startDate, endDate, techValues)
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
@@ -283,36 +279,39 @@ func deleteproject(c echo.Context) error {
 	return c.Redirect(http.StatusMovedPermanently, "/")
 }
 
-// func editproject(c echo.Context) error {
-// 	id, _ := strconv.Atoi(c.Param("id"))
+func editproject(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
 
-// 	var ProjectEdit = Project{}
+	var ProjectEdit = Project{}
 
-// 	for i, data := range dataProject {
-// 		if id == i {
-// 			ProjectEdit = Project{
-// 				Projectname: data.Projectname,
-// 				Description: data.Description,
-// 			}
-// 		}
-// 	}
+	err := connection.Conn.QueryRow(context.Background(), "SELECT id, project_name, description, image, technology, start_date, end_date FROM tb_project WHERE id=$1", id).Scan(&ProjectEdit.ID, &ProjectEdit.Projectname, &ProjectEdit.Description, &ProjectEdit.Image, &ProjectEdit.Technology, &ProjectEdit.StartDate, &ProjectEdit.EndDate)
 
-// 	editProject := map[string]interface{}{
-// 		"Project": ProjectEdit,
-// 	}
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
+	}
 
-// 	return c.Render(http.StatusOK, "editProject.html", editProject)
-// }
+	editProject := map[string]interface{}{
+		"Project": ProjectEdit,
+	}
 
-// func postEditProject(c echo.Context) error {
-// 	id, _ := strconv.Atoi(c.Param("id"))
-// 	projectNameEdit := c.FormValue("projectNameEdit")
-// 	descriptionEdit := c.FormValue("descriptionEdit")
-// 	newEditedProject := Project{
-// 		Projectname: projectNameEdit,
-// 		Duration:    "9 Bulan Ges",
-// 		Description: descriptionEdit,
-// 	}
-// 	dataProject[id] = append(dataProject, newEditedProject )
-// 	return c.Redirect(http.StatusMovedPermanently, "/")
-// }
+	return c.Render(http.StatusOK, "editProject.html", editProject)
+}
+
+func updateproject(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	projectNameEdited := c.FormValue("projectNameEdit")
+	startDateEdited := c.FormValue("startDateEdit")
+	endDateEdited := c.FormValue("endDateEdit")
+	descriptionEdited := c.FormValue("descriptionEdit")
+	techValuesEdited := c.Request().Form["techIcon"]
+	imageEdited := "project.png"
+
+	_, err := connection.Conn.Exec(context.Background(), "UPDATE tb_project SET id=$1, project_name=$2, description=$3, image=$4, start_date=$5, end_date=$6, technology=$7 WHERE id=$1", id, projectNameEdited, descriptionEdited, imageEdited, startDateEdited, endDateEdited, techValuesEdited)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"Message ": err.Error()})
+	}
+
+	return c.Redirect(http.StatusMovedPermanently, "/")
+}
